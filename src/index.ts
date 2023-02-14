@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import cookieParser from 'cookie-parser';
 import express, { Express } from 'express';
+import sequelize from './db';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
 
@@ -15,6 +16,8 @@ app.use(cookieParser());
 
 const start = async () => {
     try {
+        await sequelize.authenticate();
+        await sequelize.sync();
         app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
     } catch (e) {
         console.log(e);
